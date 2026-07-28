@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda de Verónica & Pachi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-script: 'Pinyon Script', cursive;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f8f6f2;
+            color: #4a524d;
+            overflow-x: hidden;
+        }
+
+        .font-serif-custom { font-family: var(--font-serif); }
+        .font-script-custom { font-family: var(--font-script); }
+
+        /* Custom Colors */
+        .bg-arena { background-color: #f4efe6; }
+        .bg-arena-dark { background-color: #e8e0d2; }
+        .text-mar { color: #2c5282; }
+        .text-arena-oscura { color: #8c7a6b; }
+        .border-mar-soft { border-color: #bee3f8; }
+
+        /* Soft Glow & Pulse for Seashell */
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(212, 184, 150, 0.4));
+            }
+            50% {
+                transform: scale(1.04);
+                filter: drop-shadow(0 0 25px rgba(180, 205, 215, 0.6));
+            }
+        }
+
+        .seashell-pulse {
+            animation: pulseGlow 4s infinite ease-in-out;
+            cursor: pointer;
+        }
+
+        /* Floating Seagulls Animation */
+        @keyframes floatSeagull {
+            0% { transform: translateX(-10vw) translateY(0vh) scale(0.8); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateX(110vw) translateY(-15vh) scale(1); opacity: 0; }
+        }
+
+        .seagull {
+            position: absolute;
+            animation: floatSeagull 22s infinite linear;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .seagull-delay-1 { animation-delay: 0s; top: 15%; }
+        .seagull-delay-2 { animation-delay: 11s; top: 35%; }
+
+        /* Waves background subtle move */
+        @keyframes waveMotion {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+
+        .bg-wave-pattern {
+            background-image: radial-gradient(#dce7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Smooth opening cover transition */
+        #cover-screen {
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+        }
+
+        #cover-screen.hidden-cover {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-teal-100 selection:text-teal-900">
+
+    <!-- Background Floating Seagulls SVG -->
+    <div class="seagull seagull-delay-1">
+        <svg width="45" height="20" viewBox="0 0 50 20" fill="none" stroke="#a0aec0" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 12 Q 12 2, 25 12 Q 38 2, 48 12" />
+        </svg>
+    </div>
+    <div class="seagull seagull-delay-2">
+        <svg width="35" height="15" viewBox="0 0 50 20" fill="none" stroke="#cbd5e0" stroke-width="1.5" stroke-linecap="round">
+            <path d="M2 12 Q 12 2, 25 12 Q 38 2, 48 12" />
+        </svg>
+    </div>
+
+    <!-- Background Palm Leaves Silhouettes (Corners) -->
+    <div class="fixed top-0 left-0 opacity-10 pointer-events-none z-0">
+        <svg width="220" height="220" viewBox="0 0 100 100" fill="#4a524d">
+            <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
+            <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
+        </svg>
+    </div>
+    <div class="fixed bottom-0 right-0 opacity-10 pointer-events-none z-0 transform rotate-180">
+        <svg width="220" height="220" viewBox="0 0 100 100" fill="#4a524d">
+            <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
+            <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
+        </svg>
+    </div>
+
+    <!-- INTERACTIVE COVER SCREEN (La Caracola) -->
+    <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f7f4ee] bg-wave-pattern p-6 text-center">
+        <div class="max-w-md w-full flex flex-col items-center space-y-8">
+            <span class="text-sm tracking-widest uppercase text-stone-500 font-medium">Invitación de Boda</span>
+            
+            <h1 class="font-serif-custom text-4xl sm:text-5xl text-stone-800 tracking-wide">
+                Verónica <span class="font-script-custom text-5xl sm:text-6xl text-amber-700/70 lowercase block my-1">&</span> Pachi
+            </h1>
+
+            <p class="text-xs tracking-widest text-stone-500 uppercase">La Punta, Montañita • Ecuador</p>
+
+            <!-- Interactive Seashell SVG Button -->
+            <div id="seashell-btn" class="seashell-pulse my-6 p-4 rounded-full transition duration-300 hover:scale-105" title="Toca para abrir la invitación">
+                <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Elegant Minimalist Seashell Art -->
+                    <path d="M50 15 C30 15 15 30 15 52 C15 75 35 85 50 85 C65 85 85 75 85 52 C85 30 70 15 50 15 Z" stroke="#8c7a6b" stroke-width="1.8" fill="#fcfaf7"/>
+                    <path d="M50 85 C42 65 30 45 22 30" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M50 85 C47 62 40 38 35 20" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M50 85 C50 60 50 35 50 16" stroke="#8c7a6b" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M50 85 C53 62 60 38 65 20" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M50 85 C58 65 70 45 78 30" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M38 82 C42 86 58 86 62 82" stroke="#8c7a6b" stroke-width="1.8" stroke-linecap="round"/>
+                    <circle cx="50" cy="52" r="3" fill="#d4b896" opacity="0.6"/>
+                </svg>
+            </div>
+
+            <div class="space-y-2">
+                <p class="text-sm font-medium text-stone-600 animate-pulse">Toca la caracola para ingresar</p>
+                <p class="text-xs text-stone-400 italic">Sugerencia: Activa tu sonido para una experiencia marina</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INVITATION CONTENT -->
+    <main id="main-content" class="relative z-10 max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-12">
+
+        <!-- Audio Control Button Floating -->
+        <button id="audio-toggle" class="fixed bottom-5 right-5 z-40 bg-white/80 backdrop-blur shadow-md text-stone-700 p-3 rounded-full hover:bg-white transition border border-stone-200 focus:outline-none" title="Activar/Desactivar Sonido">
+            <svg id="icon-sound-on" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 6l-4 4H4v4h4l5 5V6z"/></svg>
+            <svg id="icon-sound-off" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+        </button>
+
+        <!-- HEADER HERO SECTION -->
+        <section class="text-center space-y-4 pt-6">
+            <span class="text-xs tracking-widest text-stone-500 uppercase font-semibold">¡Nos casamos!</span>
+            
+            <h1 class="font-serif-custom text-5xl sm:text-6xl text-stone-800 font-normal tracking-wide">
+                Verónica <span class="font-script-custom text-6xl sm:text-7xl text-amber-800/70 lowercase block sm:inline my-1 sm:my-0">&</span> Pachi
+            </h1>
+
+            <!-- Starfish Separator SVG -->
+            <div class="flex justify-center my-4">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c4a482" stroke-width="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            </div>
+
+            <p class="text-base sm:text-lg text-stone-600 font-light max-w-lg mx-auto leading-relaxed">
+                Junto al mar y bajo el sol de la costa, nos encantaría compartir contigo el día más especial de nuestras vidas.
+            </p>
+        </section>
+
+        <!-- COUNTDOWN TIMER -->
+        <section class="glass-card rounded-2xl p-6 sm:p-8 text-center shadow-sm">
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-stone-500 mb-6">Cuenta Regresiva para el Gran Día</h2>
+            
+            <div id="countdown" class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md mx-auto">
+                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                    <span id="cd-days" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
+                    <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Días</span>
+                </div>
+                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                    <span id="cd-hours" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
+                    <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Horas</span>
+                </div>
+                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                    <span id="cd-minutes" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
+                    <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Min.</span>
+                </div>
+                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                    <span id="cd-seconds" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
+                    <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Seg.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENT DETAILS GRID -->
+        <section class="grid md:grid-cols-2 gap-6">
+            
+            <!-- LOCATION CARD -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition">
+                <div class="space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <h3 class="font-serif-custom text-xl text-stone-800">¿Dónde y Cuándo?</h3>
+                    <div class="space-y-1 text-sm text-stone-600">
+                        <p class="font-semibold text-stone-800">Sábado, 17 de Octubre de 2026</p>
+                        <p class="text-teal-800 font-medium">4:00 PM</p>
+                        <p class="pt-2">La Punta, Montañita</p>
+                        <p class="text-xs text-stone-500">Provincia de Santa Elena, Ecuador</p>
+                    </div>
+                </div>
+                <a href="https://maps.google.com/?q=La+Punta+Montañita+Santa+Elena+Ecuador" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center space-x-2 w-full py-2.5 px-4 bg-stone-800 text-white rounded-xl text-xs uppercase tracking-wider font-medium hover:bg-stone-700 transition">
+                    <span>Ver en Google Maps</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+            </div>
+
+            <!-- DRESS CODE CARD -->
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition">
+                <div class="space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+                    </div>
+                    <h3 class="font-serif-custom text-xl text-stone-800">Código de Vestimenta</h3>
+                    <p class="text-sm font-semibold text-amber-900">Etiqueta Playera (Beach Formal)</p>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Frescos y elegantes. Guayaberas o camisas de lino para ellos; vestidos largos o midis fluidos para ellas.
+                    </p>
+                </div>
+                
+                <!-- Color Palette Suggestions -->
+                <div class="pt-2">
+                    <span class="block text-[11px] uppercase tracking-wider text-stone-400 mb-2">Paleta Sugerida</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-6 h-6 rounded-full bg-[#f4efe6] border border-stone-300" title="Arena"></div>
+                        <div class="w-6 h-6 rounded-full bg-[#d5e3e8] border border-stone-300" title="Verde Mar"></div>
+                        <div class="w-6 h-6 rounded-full bg-[#c8b7a6] border border-stone-300" title="Nude"></div>
+                        <div class="w-6 h-6 rounded-full bg-[#a3b899] border border-stone-300" title="Oliva Suave"></div>
+                        <span class="text-[10px] text-stone-400 pl-2">(Reservar blanco para los novios)</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RSVP FORM SECTION -->
+        <section class="glass-card rounded-2xl p-6 sm:p-10 shadow-md border border-stone-200">
+            <div class="text-center space-y-2 mb-8">
+                <span class="text-xs tracking-widest text-amber-800 uppercase font-semibold">Confirmación</span>
+                <h2 class="font-serif-custom text-3xl text-stone-800">¿Nos Acompañas?</h2>
+                <p class="text-xs text-stone-500">Por favor confirma tu asistencia para organizar cada detalle</p>
+            </div>
+
+            <form id="rsvp-form" class="space-y-6 max-w-lg mx-auto">
+                <!-- Guest Name -->
+                <div>
+                    <label for="guest-name" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Nombre Completo *</label>
+                    <input type="text" id="guest-name" required placeholder="Ej. María Elena Torres" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                </div>
+
+                <!-- Attendance Radio Options -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">¿Asistirás a la boda? *</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center justify-center p-3 rounded-xl border border-stone-200 bg-white cursor-pointer hover:bg-teal-50/50 transition">
+                            <input type="radio" name="attendance" value="Sí, asistiré" checked class="text-teal-600 focus:ring-teal-500">
+                            <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">¡Sí, ahí estaré!</span>
+                        </label>
+                        <label class="flex items-center justify-center p-3 rounded-xl border border-stone-200 bg-white cursor-pointer hover:bg-rose-50/50 transition">
+                            <input type="radio" name="attendance" value="No podré asistir" class="text-rose-600 focus:ring-rose-500">
+                            <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">No podré asistir</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Companion Options (Restricted to 1 companion max) -->
+                <div>
+                    <label for="guest-companions" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Acompañante</label>
+                    <select id="guest-companions" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                        <option value="Sin acompañante">Sin acompañante (Voy solo/a)</option>
+                        <option value="1 Acompañante">1 Acompañante (+1)</option>
+                    </select>
+                </div>
+
+                <!-- Menu Preference Select -->
+                <div>
+                    <label for="guest-menu" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Preferencia de Menú</label>
+                    <select id="guest-menu" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                        <option value="Comida Cuencana">Comida Cuencana</option>
+                        <option value="Comida Vegana">Comida Vegana</option>
+                        <option value="Tengo alergias alimentarias">Tengo alergias alimentarias (Especificar abajo)</option>
+                    </select>
+                </div>
+
+                <!-- Message / Dietary Notes -->
+                <div>
+                    <label for="guest-message" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Mensaje o Nota Especial</label>
+                    <textarea id="guest-message" rows="3" placeholder="Déjanos un mensaje o especifica tus alergias..." class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 bg-stone-800 hover:bg-stone-900 text-white rounded-xl font-medium text-sm tracking-wider uppercase shadow-md transition flex items-center justify-center space-x-2">
+                    <span>Confirmar Asistencia</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-6 space-y-2 text-stone-400 text-xs border-t border-stone-200/60">
+            <p class="font-serif-custom text-sm text-stone-600">Verónica & Pachi</p>
+            <p>17 de Octubre, 2026 • La Punta, Montañita, Ecuador</p>
+        </footer>
+
+    </main>
+
+    <!-- DIGITAL PASS / CONFIRMATION MODAL -->
+    <div id="pass-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
+        <div class="glass-card bg-white max-w-sm w-full rounded-2xl p-6 shadow-2xl text-center space-y-5 border border-stone-200 transform transition-all scale-95 opacity-0 modal-anim">
+            
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+
+            <div class="space-y-1">
+                <h3 class="font-serif-custom text-2xl text-stone-800">¡Confirmación Registrada!</h3>
+                <p class="text-xs text-stone-500">Gracias por ser parte de este día tan especial</p>
+            </div>
+
+            <!-- Pass Summary Box -->
+            <div class="bg-stone-50 rounded-xl p-4 text-left text-xs space-y-2 border border-stone-200/80">
+                <div class="flex justify-between">
+                    <span class="text-stone-400">Invitado:</span>
+                    <span id="modal-name" class="font-semibold text-stone-800">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-stone-400">Estado:</span>
+                    <span id="modal-status" class="font-semibold text-teal-700">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-stone-400">Acompañante:</span>
+                    <span id="modal-companion" class="font-semibold text-stone-700">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-stone-400">Menú elegido:</span>
+                    <span id="modal-menu" class="font-semibold text-stone-700">--</span>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-stone-500 italic">
+                Presiona el siguiente botón para enviar directamente el resumen a los novios por WhatsApp:
+            </p>
+
+            <!-- WhatsApp Direct Send Button -->
+            <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold tracking-wider uppercase flex items-center justify-center space-x-2 shadow-md transition">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                <span>Enviar Resumen por WhatsApp</span>
+            </a>
+
+            <button id="close-modal-btn" class="text-xs text-stone-400 hover:text-stone-600 font-medium pt-2 block w-full">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /* CONFIGURATION VARIABLES */
+        const HOST_EMAIL = 'tu-correo@ejemplo.com';
+        const HOST_PHONE = '593991265319'; // Ecuador WhatsApp destination number formatted properly
+
+        /* WEB AUDIO API SYNTHESIZER FOR BEACH AMBIENCE */
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let noiseNode = null;
+        let gainNode = null;
+
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+
+                // Create synthesized sea waves using filtered noise
+                const bufferSize = audioCtx.sampleRate * 3;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = buffer;
+                noiseNode.loop = true;
+
+                // Lowpass filter to shape white noise into soft ocean wave rumble
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+                // Gain Node for LFO wave swells
+                gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+
+                noiseNode.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noiseNode.start();
+                isAudioPlaying = true;
+                updateAudioUI(true);
+            } catch (e) {
+                console.log("Web Audio not supported or blocked", e);
+            }
+        }
+
+        function toggleAudio() {
+            if (!audioCtx) {
+                initAudio();
+                return;
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+                isAudioPlaying = true;
+            } else if (isAudioPlaying) {
+                audioCtx.suspend();
+                isAudioPlaying = false;
+            } else {
+                audioCtx.resume();
+                isAudioPlaying = true;
+            }
+            updateAudioUI(isAudioPlaying);
+        }
+
+        function updateAudioUI(playing) {
+            const iconOn = document.getElementById('icon-sound-on');
+            const iconOff = document.getElementById('icon-sound-off');
+            if (playing) {
+                iconOn.classList.remove('hidden');
+                iconOff.classList.add('hidden');
+            } else {
+                iconOn.classList.add('hidden');
+                iconOff.classList.remove('hidden');
+            }
+        }
+
+        // Cover Opening Logic
+        document.getElementById('seashell-btn').addEventListener('click', function() {
+            const cover = document.getElementById('cover-screen');
+            cover.classList.add('hidden-cover');
+            initAudio();
+        });
+
+        // Audio Button Listener
+        document.getElementById('audio-toggle').addEventListener('click', toggleAudio);
+
+        // COUNTDOWN TIMER LOGIC
+        const weddingDate = new Date('2026-10-17T16:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = weddingDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('cd-days').textContent = days;
+                document.getElementById('cd-hours').textContent = hours < 10 ? '0' + hours : hours;
+                document.getElementById('cd-minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('cd-seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+            } else {
+                document.getElementById('countdown').innerHTML = `<p class="col-span-4 text-teal-800 font-serif-custom text-xl">¡Hoy es el gran día!</p>`;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        /* RSVP FORM HANDLING */
+        const rsvpForm = document.getElementById('rsvp-form');
+        const passModal = document.getElementById('pass-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        rsvpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('guest-name').value.trim();
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const companion = document.getElementById('guest-companions').value;
+            const menu = document.getElementById('guest-menu').value;
+            const message = document.getElementById('guest-message').value.trim();
+
+            // Populate Modal Info
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-status').textContent = attendance;
+            document.getElementById('modal-companion').textContent = companion;
+            document.getElementById('modal-menu').textContent = menu;
+
+            // Build WhatsApp Message Link
+            const textMsg = `*Confirmación de Asistencia - Boda Verónica & Pachi*\n\n` +
+                `👤 *Nombre:* ${name}\n` +
+                `✨ *Estado:* ${attendance}\n` +
+                `👥 *Acompañante:* ${companion}\n` +
+                `🍽️ *Menú:* ${menu}\n` +
+                (message ? `💬 *Mensaje:* ${message}\n` : '') +
+                `\n¡Nos vemos en La Punta, Montañita!`;
+
+            const waUrl = `https://wa.me/${HOST_PHONE}?text=${encodeURIComponent(textMsg)}`;
+            document.getElementById('whatsapp-btn').href = waUrl;
+
+            // Optional FormSubmit email sending in background
+            if (HOST_EMAIL && HOST_EMAIL !== 'tu-correo@ejemplo.com') {
+                try {
+                    fetch(`https://formsubmit.co/ajax/${HOST_EMAIL}`, {
+                        method: "POST",
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            Invitado: name,
+                            Asistencia: attendance,
+                            Acompanante: companion,
+                            Menu: menu,
+                            Mensaje: message
+                        })
+                    }).catch(err => console.log('Email dispatch skipped or offline', err));
+                } catch(err) {}
+            }
+
+            // Show Modal
+            passModal.classList.remove('hidden');
+            setTimeout(() => {
+                const modalContent = passModal.querySelector('.modal-anim');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 20);
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            passModal.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
