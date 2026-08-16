@@ -38,11 +38,11 @@
         /* Soft Glow & Pulse for Seashell */
         @keyframes pulseGlow {
             0%, 100% {
-                transform: scale(1);
+                transform: scale(1) rotate(0deg);
                 filter: drop-shadow(0 0 15px rgba(212, 184, 150, 0.4));
             }
             50% {
-                transform: scale(1.04);
+                transform: scale(1.05) rotate(2deg);
                 filter: drop-shadow(0 0 25px rgba(180, 205, 215, 0.6));
             }
         }
@@ -129,7 +129,7 @@
         </svg>
     </div>
 
-    <!-- INTERACTIVE COVER SCREEN (La Caracola) -->
+    <!-- INTERACTIVE COVER SCREEN (La Caracola en Espiral Pura) -->
     <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f7f4ee] bg-wave-pattern p-6 text-center">
         <div class="max-w-md w-full flex flex-col items-center space-y-8">
             <span class="text-sm tracking-widest uppercase text-stone-500 font-medium">Invitación de Boda</span>
@@ -140,18 +140,32 @@
 
             <p class="text-xs tracking-widest text-stone-500 uppercase">La Punta, Montañita • Ecuador</p>
 
-            <!-- Interactive Seashell SVG Button -->
-            <div id="seashell-btn" class="seashell-pulse my-6 p-4 rounded-full transition duration-300 hover:scale-105" title="Toca para abrir la invitación">
-                <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Elegant Minimalist Seashell Art -->
-                    <path d="M50 15 C30 15 15 30 15 52 C15 75 35 85 50 85 C65 85 85 75 85 52 C85 30 70 15 50 15 Z" stroke="#8c7a6b" stroke-width="1.8" fill="#fcfaf7"/>
-                    <path d="M50 85 C42 65 30 45 22 30" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M50 85 C47 62 40 38 35 20" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M50 85 C50 60 50 35 50 16" stroke="#8c7a6b" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M50 85 C53 62 60 38 65 20" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M50 85 C58 65 70 45 78 30" stroke="#b0a090" stroke-width="1.2" stroke-linecap="round"/>
-                    <path d="M38 82 C42 86 58 86 62 82" stroke="#8c7a6b" stroke-width="1.8" stroke-linecap="round"/>
-                    <circle cx="50" cy="52" r="3" fill="#d4b896" opacity="0.6"/>
+            <!-- Interactive Pure Spiral Seashell SVG Button -->
+            <div id="seashell-btn" class="seashell-pulse my-4 p-5 rounded-full transition duration-300 hover:scale-105 active:scale-95" title="Toca la caracola para abrir la invitación">
+                <svg width="130" height="130" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Clean & Pure Spiral Seashell Path -->
+                    <path d="M 88 50 
+                             C 88 72, 70 88, 48 88 
+                             C 24 88, 12 68, 12 46 
+                             C 12 22, 32 12, 54 12 
+                             C 74 12, 84 28, 84 46 
+                             C 84 62, 70 74, 54 74 
+                             C 38 74, 26 62, 26 48 
+                             C 26 34, 38 24, 52 24 
+                             C 64 24, 72 34, 72 46 
+                             C 72 56, 62 62, 52 62 
+                             C 42 62, 36 54, 36 46 
+                             C 36 38, 44 34, 50 34 
+                             C 56 34, 58 40, 58 44 
+                             C 58 48, 52 50, 50 48" 
+                          stroke="#8c7865" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                          
+                    <!-- Soft Outer Outline Fill for Elegance -->
+                    <path d="M 88 50 C 88 72, 70 88, 48 88 C 24 88, 12 68, 12 46 C 12 22, 32 12, 54 12 C 74 12, 84 28, 84 46 Z" 
+                          fill="#fcfaf7" opacity="0.5" stroke="none"/>
+                          
+                    <!-- Minimalist Center Pearl Dot -->
+                    <circle cx="50" cy="48" r="2.5" fill="#c2a78e"/>
                 </svg>
             </div>
 
@@ -309,6 +323,7 @@
                 <div>
                     <label for="guest-menu" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Preferencia de Menú</label>
                     <select id="guest-menu" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                        <option value="Comida Manaba">Comida Manaba</option>
                         <option value="Comida Cuencana">Comida Cuencana</option>
                         <option value="Comida Vegana">Comida Vegana</option>
                         <option value="Tengo alergias alimentarias">Tengo alergias alimentarias (Especificar abajo)</option>
