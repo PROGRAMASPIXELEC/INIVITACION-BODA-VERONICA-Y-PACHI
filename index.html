@@ -20,22 +20,34 @@
 
         body {
             font-family: var(--font-sans);
-            background-color: #f8f6f2;
-            color: #4a524d;
+            background-color: #1a0f18;
+            color: #38403b;
             overflow-x: hidden;
         }
 
         .font-serif-custom { font-family: var(--font-serif); }
         .font-script-custom { font-family: var(--font-script); }
 
-        /* Custom Colors */
-        .bg-arena { background-color: #f4efe6; }
-        .bg-arena-dark { background-color: #e8e0d2; }
-        .text-mar { color: #2c5282; }
-        .text-arena-oscura { color: #8c7a6b; }
-        .border-mar-soft { border-color: #bee3f8; }
+        /* Contenedor de la imagen de fondo de La Punta al atardecer */
+        .fullscreen-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-        /* Soft Glow & Pulse for Seashell */
+        .fullscreen-bg-container svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+        }
+
+        /* Pulsación suave para la caracola de la portada */
         @keyframes pulseGlow {
             0%, 100% {
                 transform: scale(1) rotate(0deg);
@@ -52,7 +64,7 @@
             cursor: pointer;
         }
 
-        /* Floating Seagulls Animation */
+        /* Gaviotas flotantes */
         @keyframes floatSeagull {
             0% { transform: translateX(-10vw) translateY(0vh) scale(0.8); opacity: 0; }
             20% { opacity: 0.6; }
@@ -70,18 +82,13 @@
         .seagull-delay-1 { animation-delay: 0s; top: 15%; }
         .seagull-delay-2 { animation-delay: 11s; top: 35%; }
 
-        /* Waves background subtle move */
-        @keyframes waveMotion {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 1000px; }
-        }
-
+        /* Patrón de fondo para la portada */
         .bg-wave-pattern {
             background-image: radial-gradient(#dce7eb 1px, transparent 1px);
             background-size: 24px 24px;
         }
 
-        /* Smooth opening cover transition */
+        /* Transición de la portada */
         #cover-screen {
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
         }
@@ -92,44 +99,122 @@
             pointer-events: none;
         }
 
-        /* Glassmorphism Card */
+        /* Tarjetas de cristal traslúcido estilizadas para resaltar sobre el atardecer */
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 252, 247, 0.93);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25);
         }
     </style>
 </head>
-<body class="min-h-screen relative flex flex-col justify-between selection:bg-teal-100 selection:text-teal-900">
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-amber-100 selection:text-amber-900">
 
-    <!-- Background Floating Seagulls SVG -->
+    <!-- IMAGEN DE FONDO REAL (ATARDECER EN LA PUNTA MONTAÑITA) -->
+    <div class="fullscreen-bg-container">
+        <!-- Recreación vectorial fiel en HD de la fotografía entregada -->
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Degradado real del atardecer -->
+                <linearGradient id="sunsetSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fd6284"/>
+                    <stop offset="35%" stop-color="#ff7b47"/>
+                    <stop offset="65%" stop-color="#ffaa3b"/>
+                    <stop offset="100%" stop-color="#ffd56b"/>
+                </linearGradient>
+
+                <!-- Reflejo del sol en el agua del mar -->
+                <linearGradient id="seaReflect" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#4a183d"/>
+                    <stop offset="40%" stop-color="#802b52"/>
+                    <stop offset="75%" stop-color="#d45b48"/>
+                    <stop offset="100%" stop-color="#ffaa3b"/>
+                </linearGradient>
+
+                <!-- Arena mojada reflejando el cielo naranja -->
+                <linearGradient id="wetSand" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ff7b47"/>
+                    <stop offset="50%" stop-color="#e0533c"/>
+                    <stop offset="100%" stop-color="#8a233b"/>
+                </linearGradient>
+            </defs>
+
+            <!-- Cielo de Atardecer -->
+            <rect width="1200" height="800" fill="url(#sunsetSky)"/>
+
+            <!-- Nubes tenues de atardecer -->
+            <path d="M50,80 Q200,60 380,85 T700,70 L1200,90 L1200,0 L0,0 Z" fill="#e84c71" opacity="0.4"/>
+            <path d="M400,120 Q600,100 800,125 T1100,110 L1200,130 L1200,0 L0,0 Z" fill="#f26e55" opacity="0.3"/>
+
+            <!-- Silueta de la icónica roca de La Punta Montañita -->
+            <path d="M330,420 
+                     C320,400 335,360 340,330 
+                     C342,300 360,280 400,270 
+                     C450,260 520,250 600,250 
+                     C700,250 780,210 840,190 
+                     C855,185 860,130 870,110 
+                     C880,90  895,120 910,160 
+                     C920,180 940,190 980,185 
+                     C1020,180 1080,185 1200,180 
+                     L1200,450 L330,450 Z" fill="#0d040a"/>
+
+            <path d="M1090,185 L1200,185 L1200,220 L1090,220 Z" fill="#0d040a"/>
+            <path d="M1070,185 Q1145,160 1200,185 Z" fill="#0d040a"/>
+
+            <!-- Mar con oleaje -->
+            <rect y="410" width="1200" height="230" fill="url(#seaReflect)"/>
+            
+            <path d="M0,430 C300,410 600,450 1200,420 L1200,470 L0,470 Z" fill="#1f0917" opacity="0.8"/>
+            <path d="M0,480 Q350,460 700,490 T1200,470 L1200,530 L0,530 Z" fill="#ffaa3b" opacity="0.4"/>
+            <path d="M0,520 C400,500 800,540 1200,510 L1200,580 L0,580 Z" fill="#12050e"/>
+            <path d="M0,560 Q450,540 900,570 T1200,550 L1200,600 L0,600 Z" fill="#ffc27d" opacity="0.5"/>
+
+            <!-- Arena mojada -->
+            <path d="M0,600 C300,580 700,630 1200,590 L1200,800 L0,800 Z" fill="url(#wetSand)"/>
+            <path d="M0,640 Q400,620 800,660 T1200,630 L1200,800 L0,800 Z" fill="#360a16" opacity="0.85"/>
+
+            <!-- Silueta caminante del Surfer -->
+            <g fill="#0d040a" transform="translate(480, 500) scale(0.85)">
+                <circle cx="50" cy="80" r="9"/>
+                <path d="M42,90 L58,90 L54,130 L46,130 Z"/>
+                <path d="M46,130 L35,175 L28,175 L43,130 Z"/>
+                <path d="M54,130 L68,170 L76,170 L58,130 Z"/>
+                <path d="M10,110 C 20,85, 70,85, 110,115 C 80,130, 30,130, 10,110 Z" transform="rotate(-12, 60, 110)"/>
+                <ellipse cx="50" cy="180" rx="35" ry="4" fill="#000000" opacity="0.4"/>
+            </g>
+        </svg>
+
+        <div class="absolute inset-0 bg-[#000000]/20 backdrop-blur-[1px]"></div>
+    </div>
+
+    <!-- Gaviotas en fondo -->
     <div class="seagull seagull-delay-1">
-        <svg width="45" height="20" viewBox="0 0 50 20" fill="none" stroke="#a0aec0" stroke-width="1.5" stroke-linecap="round">
+        <svg width="45" height="20" viewBox="0 0 50 20" fill="none" stroke="#ffe3cb" stroke-width="1.5" stroke-linecap="round">
             <path d="M2 12 Q 12 2, 25 12 Q 38 2, 48 12" />
         </svg>
     </div>
     <div class="seagull seagull-delay-2">
-        <svg width="35" height="15" viewBox="0 0 50 20" fill="none" stroke="#cbd5e0" stroke-width="1.5" stroke-linecap="round">
+        <svg width="35" height="15" viewBox="0 0 50 20" fill="none" stroke="#ffd0a8" stroke-width="1.5" stroke-linecap="round">
             <path d="M2 12 Q 12 2, 25 12 Q 38 2, 48 12" />
         </svg>
     </div>
 
-    <!-- Background Palm Leaves Silhouettes (Corners) -->
-    <div class="fixed top-0 left-0 opacity-10 pointer-events-none z-0">
-        <svg width="220" height="220" viewBox="0 0 100 100" fill="#4a524d">
+    <!-- Hojas de palma decorativas -->
+    <div class="fixed top-0 left-0 opacity-15 pointer-events-none z-0">
+        <svg width="220" height="220" viewBox="0 0 100 100" fill="#ffffff">
             <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
             <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
         </svg>
     </div>
-    <div class="fixed bottom-0 right-0 opacity-10 pointer-events-none z-0 transform rotate-180">
-        <svg width="220" height="220" viewBox="0 0 100 100" fill="#4a524d">
+    <div class="fixed bottom-0 right-0 opacity-15 pointer-events-none z-0 transform rotate-180">
+        <svg width="220" height="220" viewBox="0 0 100 100" fill="#ffffff">
             <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
             <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
         </svg>
     </div>
 
-    <!-- INTERACTIVE COVER SCREEN (La Caracola en Espiral Pura) -->
+    <!-- PORTADA INICIAL DE BIENVENIDA (Caracola) -->
     <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f7f4ee] bg-wave-pattern p-6 text-center">
         <div class="max-w-md w-full flex flex-col items-center space-y-8">
             <span class="text-sm tracking-widest uppercase text-stone-500 font-medium">Invitación de Boda</span>
@@ -140,10 +225,9 @@
 
             <p class="text-xs tracking-widest text-stone-500 uppercase">La Punta, Montañita • Ecuador</p>
 
-            <!-- Interactive Pure Spiral Seashell SVG Button -->
+            <!-- Caracola en Espiral Limpia con Sonido Táctil -->
             <div id="seashell-btn" class="seashell-pulse my-4 p-5 rounded-full transition duration-300 hover:scale-105 active:scale-95" title="Toca la caracola para abrir la invitación">
                 <svg width="130" height="130" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Clean & Pure Spiral Seashell Path -->
                     <path d="M 88 50 
                              C 88 72, 70 88, 48 88 
                              C 24 88, 12 68, 12 46 
@@ -160,11 +244,9 @@
                              C 58 48, 52 50, 50 48" 
                           stroke="#8c7865" stroke-width="2.5" stroke-linecap="round" fill="none"/>
                           
-                    <!-- Soft Outer Outline Fill for Elegance -->
                     <path d="M 88 50 C 88 72, 70 88, 48 88 C 24 88, 12 68, 12 46 C 12 22, 32 12, 54 12 C 74 12, 84 28, 84 46 Z" 
                           fill="#fcfaf7" opacity="0.5" stroke="none"/>
                           
-                    <!-- Minimalist Center Pearl Dot -->
                     <circle cx="50" cy="48" r="2.5" fill="#c2a78e"/>
                 </svg>
             </div>
@@ -176,86 +258,85 @@
         </div>
     </div>
 
-    <!-- MAIN INVITATION CONTENT -->
+    <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
     <main id="main-content" class="relative z-10 max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-12">
 
-        <!-- Audio Control Button Floating -->
-        <button id="audio-toggle" class="fixed bottom-5 right-5 z-40 bg-white/80 backdrop-blur shadow-md text-stone-700 p-3 rounded-full hover:bg-white transition border border-stone-200 focus:outline-none" title="Activar/Desactivar Sonido">
+        <!-- Botón flotante para el audio ambiental del mar -->
+        <button id="audio-toggle" class="fixed bottom-5 right-5 z-40 bg-white/90 backdrop-blur shadow-lg text-stone-700 p-3 rounded-full hover:bg-white transition border border-stone-200 focus:outline-none click-sand-sound" title="Activar/Desactivar Sonido">
             <svg id="icon-sound-on" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 6l-4 4H4v4h4l5 5V6z"/></svg>
             <svg id="icon-sound-off" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
         </button>
 
-        <!-- HEADER HERO SECTION -->
-        <section class="text-center space-y-4 pt-6">
-            <span class="text-xs tracking-widest text-stone-500 uppercase font-semibold">¡Nos casamos!</span>
+        <!-- ENCABEZADO DE BIENVENIDA -->
+        <section class="glass-card rounded-2xl p-6 sm:p-10 text-center space-y-4">
+            <span class="text-xs tracking-widest text-amber-800 uppercase font-semibold">¡Nos casamos!</span>
             
             <h1 class="font-serif-custom text-5xl sm:text-6xl text-stone-800 font-normal tracking-wide">
-                Verónica <span class="font-script-custom text-6xl sm:text-7xl text-amber-800/70 lowercase block sm:inline my-1 sm:my-0">&</span> Pachi
+                Verónica <span class="font-script-custom text-6xl sm:text-7xl text-amber-800/80 lowercase block sm:inline my-1 sm:my-0">&</span> Pachi
             </h1>
 
-            <!-- Starfish Separator SVG -->
             <div class="flex justify-center my-4">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c4a482" stroke-width="1.5">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
             </div>
 
-            <p class="text-base sm:text-lg text-stone-600 font-light max-w-lg mx-auto leading-relaxed">
+            <p class="text-base sm:text-lg text-stone-700 font-medium max-w-lg mx-auto leading-relaxed">
                 Junto al mar y bajo el sol de la costa, nos encantaría compartir contigo el día más especial de nuestras vidas.
             </p>
         </section>
 
-        <!-- COUNTDOWN TIMER -->
+        <!-- TEMPORIZADOR -->
         <section class="glass-card rounded-2xl p-6 sm:p-8 text-center shadow-sm">
-            <h2 class="text-xs font-semibold tracking-widest uppercase text-stone-500 mb-6">Cuenta Regresiva para el Gran Día</h2>
+            <h2 class="text-xs font-semibold tracking-widest uppercase text-stone-600 mb-6">Cuenta Regresiva para el Gran Día</h2>
             
             <div id="countdown" class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md mx-auto">
-                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                <div class="bg-white/90 rounded-xl p-3 border border-stone-100 shadow-sm">
                     <span id="cd-days" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
                     <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Días</span>
                 </div>
-                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                <div class="bg-white/90 rounded-xl p-3 border border-stone-100 shadow-sm">
                     <span id="cd-hours" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
                     <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Horas</span>
                 </div>
-                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                <div class="bg-white/90 rounded-xl p-3 border border-stone-100 shadow-sm">
                     <span id="cd-minutes" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
                     <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Min.</span>
                 </div>
-                <div class="bg-white/80 rounded-xl p-3 border border-stone-100">
+                <div class="bg-white/90 rounded-xl p-3 border border-stone-100 shadow-sm">
                     <span id="cd-seconds" class="font-serif-custom text-2xl sm:text-4xl text-stone-800 font-semibold">--</span>
                     <span class="block text-[10px] sm:text-xs text-stone-500 uppercase mt-1">Seg.</span>
                 </div>
             </div>
         </section>
 
-        <!-- EVENT DETAILS GRID -->
+        <!-- DETALLES DEL EVENTO -->
         <section class="grid md:grid-cols-2 gap-6">
             
-            <!-- LOCATION CARD -->
+            <!-- TARJETA UBICACIÓN -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition">
                 <div class="space-y-3">
-                    <div class="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-700">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-800">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
                     <h3 class="font-serif-custom text-xl text-stone-800">¿Dónde y Cuándo?</h3>
                     <div class="space-y-1 text-sm text-stone-600">
                         <p class="font-semibold text-stone-800">Sábado, 17 de Octubre de 2026</p>
-                        <p class="text-teal-800 font-medium">4:00 PM</p>
+                        <p class="text-amber-900 font-medium">4:00 PM</p>
                         <p class="pt-2">La Punta, Montañita</p>
                         <p class="text-xs text-stone-500">Provincia de Santa Elena, Ecuador</p>
                     </div>
                 </div>
-                <a href="https://maps.google.com/?q=La+Punta+Montañita+Santa+Elena+Ecuador" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center space-x-2 w-full py-2.5 px-4 bg-stone-800 text-white rounded-xl text-xs uppercase tracking-wider font-medium hover:bg-stone-700 transition">
+                <a href="https://maps.google.com/?q=La+Punta+Montañita+Santa+Elena+Ecuador" target="_blank" rel="noopener noreferrer" class="click-sand-sound inline-flex items-center justify-center space-x-2 w-full py-2.5 px-4 bg-stone-800 text-white rounded-xl text-xs uppercase tracking-wider font-medium hover:bg-stone-700 transition">
                     <span>Ver en Google Maps</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
             </div>
 
-            <!-- DRESS CODE CARD -->
+            <!-- TARJETA CÓDIGO DE VESTIMENTA -->
             <div class="glass-card rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition">
                 <div class="space-y-3">
-                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-700">
+                    <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-800">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
                     </div>
                     <h3 class="font-serif-custom text-xl text-stone-800">Código de Vestimenta</h3>
@@ -265,7 +346,6 @@
                     </p>
                 </div>
                 
-                <!-- Color Palette Suggestions -->
                 <div class="pt-2">
                     <span class="block text-[11px] uppercase tracking-wider text-stone-400 mb-2">Paleta Sugerida</span>
                     <div class="flex items-center space-x-2">
@@ -280,7 +360,7 @@
 
         </section>
 
-        <!-- RSVP FORM SECTION -->
+        <!-- FORMULARIO DE CONFIRMACIÓN -->
         <section class="glass-card rounded-2xl p-6 sm:p-10 shadow-md border border-stone-200">
             <div class="text-center space-y-2 mb-8">
                 <span class="text-xs tracking-widest text-amber-800 uppercase font-semibold">Confirmación</span>
@@ -289,40 +369,36 @@
             </div>
 
             <form id="rsvp-form" class="space-y-6 max-w-lg mx-auto">
-                <!-- Guest Name -->
                 <div>
                     <label for="guest-name" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Nombre Completo *</label>
-                    <input type="text" id="guest-name" required placeholder="Ej. María Elena Torres" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                    <input type="text" id="guest-name" required placeholder="Ej. María Elena Torres" class="click-sand-sound w-full px-4 py-3 rounded-xl bg-white border border-stone-300 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition">
                 </div>
 
-                <!-- Attendance Radio Options -->
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">¿Asistirás a la boda? *</label>
                     <div class="grid grid-cols-2 gap-3">
-                        <label class="flex items-center justify-center p-3 rounded-xl border border-stone-200 bg-white cursor-pointer hover:bg-teal-50/50 transition">
-                            <input type="radio" name="attendance" value="Sí, asistiré" checked class="text-teal-600 focus:ring-teal-500">
+                        <label class="click-sand-sound flex items-center justify-center p-3 rounded-xl border border-stone-300 bg-white cursor-pointer hover:bg-amber-50/50 transition">
+                            <input type="radio" name="attendance" value="Sí, asistiré" checked class="text-amber-700 focus:ring-amber-600">
                             <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">¡Sí, ahí estaré!</span>
                         </label>
-                        <label class="flex items-center justify-center p-3 rounded-xl border border-stone-200 bg-white cursor-pointer hover:bg-rose-50/50 transition">
+                        <label class="click-sand-sound flex items-center justify-center p-3 rounded-xl border border-stone-300 bg-white cursor-pointer hover:bg-rose-50/50 transition">
                             <input type="radio" name="attendance" value="No podré asistir" class="text-rose-600 focus:ring-rose-500">
                             <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">No podré asistir</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Companion Options (Restricted to 1 companion max) -->
                 <div>
                     <label for="guest-companions" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Acompañante</label>
-                    <select id="guest-companions" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                    <select id="guest-companions" class="click-sand-sound w-full px-4 py-3 rounded-xl bg-white border border-stone-300 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition">
                         <option value="Sin acompañante">Sin acompañante (Voy solo/a)</option>
                         <option value="1 Acompañante">1 Acompañante (+1)</option>
                     </select>
                 </div>
 
-                <!-- Menu Preference Select -->
                 <div>
                     <label for="guest-menu" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Preferencia de Menú</label>
-                    <select id="guest-menu" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition">
+                    <select id="guest-menu" class="click-sand-sound w-full px-4 py-3 rounded-xl bg-white border border-stone-300 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition">
                         <option value="Comida Manaba">Comida Manaba</option>
                         <option value="Comida Cuencana">Comida Cuencana</option>
                         <option value="Comida Vegana">Comida Vegana</option>
@@ -330,28 +406,26 @@
                     </select>
                 </div>
 
-                <!-- Message / Dietary Notes -->
                 <div>
                     <label for="guest-message" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Mensaje o Nota Especial</label>
-                    <textarea id="guest-message" rows="3" placeholder="Déjanos un mensaje o especifica tus alergias..." class="w-full px-4 py-3 rounded-xl bg-white/90 border border-stone-200 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/40 transition"></textarea>
+                    <textarea id="guest-message" rows="3" placeholder="Déjanos un mensaje o especifica tus alergias..." class="click-sand-sound w-full px-4 py-3 rounded-xl bg-white border border-stone-300 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition"></textarea>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" id="submit-btn" class="w-full py-3.5 px-6 bg-stone-800 hover:bg-stone-900 text-white rounded-xl font-medium text-sm tracking-wider uppercase shadow-md transition flex items-center justify-center space-x-2">
+                <button type="submit" id="submit-btn" class="click-sand-sound w-full py-3.5 px-6 bg-stone-800 hover:bg-stone-900 text-white rounded-xl font-medium text-sm tracking-wider uppercase shadow-md transition flex items-center justify-center space-x-2">
                     <span>Confirmar Asistencia</span>
                 </button>
             </form>
         </section>
 
-        <!-- FOOTER -->
-        <footer class="text-center py-6 space-y-2 text-stone-400 text-xs border-t border-stone-200/60">
-            <p class="font-serif-custom text-sm text-stone-600">Verónica & Pachi</p>
+        <!-- PIE DE PÁGINA -->
+        <footer class="text-center py-6 space-y-2 text-stone-500 text-xs border-t border-stone-200/60 glass-card rounded-xl">
+            <p class="font-serif-custom text-sm text-stone-700 font-semibold">Verónica & Pachi</p>
             <p>17 de Octubre, 2026 • La Punta, Montañita, Ecuador</p>
         </footer>
 
     </main>
 
-    <!-- DIGITAL PASS / CONFIRMATION MODAL -->
+    <!-- MODAL RESUMEN WHATSAPP -->
     <div id="pass-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm hidden">
         <div class="glass-card bg-white max-w-sm w-full rounded-2xl p-6 shadow-2xl text-center space-y-5 border border-stone-200 transform transition-all scale-95 opacity-0 modal-anim">
             
@@ -364,7 +438,6 @@
                 <p class="text-xs text-stone-500">Gracias por ser parte de este día tan especial</p>
             </div>
 
-            <!-- Pass Summary Box -->
             <div class="bg-stone-50 rounded-xl p-4 text-left text-xs space-y-2 border border-stone-200/80">
                 <div class="flex justify-between">
                     <span class="text-stone-400">Invitado:</span>
@@ -372,7 +445,7 @@
                 </div>
                 <div class="flex justify-between">
                     <span class="text-stone-400">Estado:</span>
-                    <span id="modal-status" class="font-semibold text-teal-700">--</span>
+                    <span id="modal-status" class="font-semibold text-amber-800">--</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-stone-400">Acompañante:</span>
@@ -388,71 +461,77 @@
                 Presiona el siguiente botón para enviar directamente el resumen a los novios por WhatsApp:
             </p>
 
-            <!-- WhatsApp Direct Send Button -->
-            <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold tracking-wider uppercase flex items-center justify-center space-x-2 shadow-md transition">
+            <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer" class="click-sand-sound w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold tracking-wider uppercase flex items-center justify-center space-x-2 shadow-md transition">
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                 <span>Enviar Resumen por WhatsApp</span>
             </a>
 
-            <button id="close-modal-btn" class="text-xs text-stone-400 hover:text-stone-600 font-medium pt-2 block w-full">
+            <button id="close-modal-btn" class="click-sand-sound text-xs text-stone-400 hover:text-stone-600 font-medium pt-2 block w-full">
                 Cerrar
             </button>
         </div>
     </div>
 
     <script>
-        /* CONFIGURATION VARIABLES */
         const HOST_EMAIL = 'tu-correo@ejemplo.com';
-        const HOST_PHONE = '593991265319'; // Ecuador WhatsApp destination number formatted properly
+        const HOST_PHONE = '593991265319';
 
-        /* WEB AUDIO API SYNTHESIZER FOR BEACH AMBIENCE */
+        /* MOTOR DE SINTETIZADOR DE AUDIO (WEB AUDIO API) */
         let audioCtx = null;
         let isAudioPlaying = false;
         let noiseNode = null;
         let gainNode = null;
 
-        function initAudio() {
-            if (audioCtx) return;
-            try {
+        function getAudioContext() {
+            if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
 
-                // Create synthesized sea waves using filtered noise
-                const bufferSize = audioCtx.sampleRate * 3;
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        // 1. SONIDO AMBIENTAL DE OLA DE MAR DE FONDO
+        function initSeaAmbience() {
+            const ctx = getAudioContext();
+            if (noiseNode) return;
+
+            try {
+                const bufferSize = ctx.sampleRate * 3;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
                 const data = buffer.getChannelData(0);
                 for (let i = 0; i < bufferSize; i++) {
                     data[i] = Math.random() * 2 - 1;
                 }
 
-                noiseNode = audioCtx.createBufferSource();
+                noiseNode = ctx.createBufferSource();
                 noiseNode.buffer = buffer;
                 noiseNode.loop = true;
 
-                // Lowpass filter to shape white noise into soft ocean wave rumble
-                const filter = audioCtx.createBiquadFilter();
+                const filter = ctx.createBiquadFilter();
                 filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+                filter.frequency.setValueAtTime(320, ctx.currentTime);
 
-                // Gain Node for LFO wave swells
-                gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gainNode = ctx.createGain();
+                gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
 
                 noiseNode.connect(filter);
                 filter.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
+                gainNode.connect(ctx.destination);
 
                 noiseNode.start();
                 isAudioPlaying = true;
                 updateAudioUI(true);
             } catch (e) {
-                console.log("Web Audio not supported or blocked", e);
+                console.log("Audio no soportado", e);
             }
         }
 
         function toggleAudio() {
             if (!audioCtx) {
-                initAudio();
+                initSeaAmbience();
                 return;
             }
             if (audioCtx.state === 'suspended') {
@@ -480,17 +559,151 @@
             }
         }
 
-        // Cover Opening Logic
+        // 2. EFECTO SONORO DE SOPLO DE CARACOLA MARINA
+        function playConchSound() {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+
+            // Clic de apertura
+            playSandClick();
+
+            // Tono resonante místico de caracola
+            const osc = ctx.createOscillator();
+            const oscGain = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(140, now);
+            osc.frequency.exponentialRampToValueAtTime(190, now + 0.4);
+            osc.frequency.exponentialRampToValueAtTime(160, now + 1.2);
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(300, now);
+            filter.Q.setValueAtTime(3, now);
+
+            oscGain.gain.setValueAtTime(0.01, now);
+            oscGain.gain.linearRampToValueAtTime(0.35, now + 0.3);
+            oscGain.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+
+            osc.connect(filter);
+            filter.connect(oscGain);
+            oscGain.connect(ctx.destination);
+
+            osc.start(now);
+            osc.stop(now + 1.35);
+        }
+
+        // 3. EFECTO UNICO DE ZOOM / SWOOSH DE VIENTO AL INICIAR CADA GESTO DE DESLIZAMIENTO
+        let hasPlayedSwipeSound = false;
+        let scrollTimeout = null;
+
+        function triggerSingleSwipeZoomSound() {
+            const cover = document.getElementById('cover-screen');
+            if (!cover.classList.contains('hidden-cover')) return;
+
+            if (!hasPlayedSwipeSound) {
+                hasPlayedSwipeSound = true;
+                playSwooshSound();
+            }
+
+            // Reinicia la posibilidad de sonar una vez que el usuario detiene el gesto
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                hasPlayedSwipeSound = false;
+            }, 350);
+        }
+
+        function playSwooshSound() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+
+                const bufferSize = ctx.sampleRate * 0.25;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(200, now);
+                filter.frequency.exponentialRampToValueAtTime(750, now + 0.12);
+                filter.frequency.exponentialRampToValueAtTime(250, now + 0.25);
+
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.07, now + 0.1);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.25);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+
+                noise.start(now);
+            } catch(e) {}
+        }
+
+        // 4. SONIDO TÁCTIL DE PISADA EN ARENA / CLIC PLAYERO
+        function playSandClick() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+
+                const bufferSize = ctx.sampleRate * 0.05;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(1200, now);
+
+                const gain = ctx.createGain();
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+
+                noise.start(now);
+            } catch(e) {}
+        }
+
+        // Abrir portada al pulsar la caracola + Sonido de caracola
         document.getElementById('seashell-btn').addEventListener('click', function() {
+            playConchSound();
             const cover = document.getElementById('cover-screen');
             cover.classList.add('hidden-cover');
-            initAudio();
+            setTimeout(initSeaAmbience, 200);
         });
 
-        // Audio Button Listener
         document.getElementById('audio-toggle').addEventListener('click', toggleAudio);
 
-        // COUNTDOWN TIMER LOGIC
+        // Detectar inicio de deslizamiento táctil, rueda del mouse o scroll (1 vez por gesto)
+        window.addEventListener('touchstart', triggerSingleSwipeZoomSound, { passive: true });
+        window.addEventListener('wheel', triggerSingleSwipeZoomSound, { passive: true });
+        window.addEventListener('scroll', triggerSingleSwipeZoomSound, { passive: true });
+
+        window.addEventListener('touchend', function() {
+            hasPlayedSwipeSound = false;
+        });
+
+        // Asignar sonido de clic en arena a botones y controles
+        document.querySelectorAll('.click-sand-sound, input, select, textarea').forEach(el => {
+            el.addEventListener('click', playSandClick);
+        });
+
+        // LÓGICA TEMPORIZADOR
         const weddingDate = new Date('2026-10-17T16:00:00').getTime();
 
         function updateCountdown() {
@@ -508,20 +721,21 @@
                 document.getElementById('cd-minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
                 document.getElementById('cd-seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
             } else {
-                document.getElementById('countdown').innerHTML = `<p class="col-span-4 text-teal-800 font-serif-custom text-xl">¡Hoy es el gran día!</p>`;
+                document.getElementById('countdown').innerHTML = `<p class="col-span-4 text-amber-900 font-serif-custom text-xl">¡Hoy es el gran día!</p>`;
             }
         }
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        /* RSVP FORM HANDLING */
+        /* MANEJO FORMULARIO RSVP */
         const rsvpForm = document.getElementById('rsvp-form');
         const passModal = document.getElementById('pass-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
 
         rsvpForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            playSandClick();
 
             const name = document.getElementById('guest-name').value.trim();
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
@@ -529,13 +743,11 @@
             const menu = document.getElementById('guest-menu').value;
             const message = document.getElementById('guest-message').value.trim();
 
-            // Populate Modal Info
             document.getElementById('modal-name').textContent = name;
             document.getElementById('modal-status').textContent = attendance;
             document.getElementById('modal-companion').textContent = companion;
             document.getElementById('modal-menu').textContent = menu;
 
-            // Build WhatsApp Message Link
             const textMsg = `*Confirmación de Asistencia - Boda Verónica & Pachi*\n\n` +
                 `👤 *Nombre:* ${name}\n` +
                 `✨ *Estado:* ${attendance}\n` +
@@ -547,27 +759,6 @@
             const waUrl = `https://wa.me/${HOST_PHONE}?text=${encodeURIComponent(textMsg)}`;
             document.getElementById('whatsapp-btn').href = waUrl;
 
-            // Optional FormSubmit email sending in background
-            if (HOST_EMAIL && HOST_EMAIL !== 'tu-correo@ejemplo.com') {
-                try {
-                    fetch(`https://formsubmit.co/ajax/${HOST_EMAIL}`, {
-                        method: "POST",
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            Invitado: name,
-                            Asistencia: attendance,
-                            Acompanante: companion,
-                            Menu: menu,
-                            Mensaje: message
-                        })
-                    }).catch(err => console.log('Email dispatch skipped or offline', err));
-                } catch(err) {}
-            }
-
-            // Show Modal
             passModal.classList.remove('hidden');
             setTimeout(() => {
                 const modalContent = passModal.querySelector('.modal-anim');
@@ -577,6 +768,7 @@
         });
 
         closeModalBtn.addEventListener('click', function() {
+            playSandClick();
             passModal.classList.add('hidden');
         });
     </script>
