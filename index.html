@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -99,13 +99,27 @@
             pointer-events: none;
         }
 
-        /* Tarjetas de cristal traslúcido estilizadas para resaltar sobre el atardecer */
+        /* Tarjetas de cristal traslúcido */
         .glass-card {
-            background: rgba(255, 252, 247, 0.93);
+            background: rgba(255, 252, 247, 0.94);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.85);
             box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Transición suave para desplegable de cuentas bancarias */
+        .expandable-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-in-out, margin 0.3s ease;
+        }
+
+        .expandable-content.expanded {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 0.75rem;
         }
     </style>
 </head>
@@ -113,10 +127,8 @@
 
     <!-- IMAGEN DE FONDO REAL (ATARDECER EN LA PUNTA MONTAÑITA) -->
     <div class="fullscreen-bg-container">
-        <!-- Recreación vectorial fiel en HD de la fotografía entregada -->
         <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Degradado real del atardecer -->
                 <linearGradient id="sunsetSky" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stop-color="#fd6284"/>
                     <stop offset="35%" stop-color="#ff7b47"/>
@@ -124,7 +136,6 @@
                     <stop offset="100%" stop-color="#ffd56b"/>
                 </linearGradient>
 
-                <!-- Reflejo del sol en el agua del mar -->
                 <linearGradient id="seaReflect" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stop-color="#4a183d"/>
                     <stop offset="40%" stop-color="#802b52"/>
@@ -132,7 +143,6 @@
                     <stop offset="100%" stop-color="#ffaa3b"/>
                 </linearGradient>
 
-                <!-- Arena mojada reflejando el cielo naranja -->
                 <linearGradient id="wetSand" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stop-color="#ff7b47"/>
                     <stop offset="50%" stop-color="#e0533c"/>
@@ -140,14 +150,14 @@
                 </linearGradient>
             </defs>
 
-            <!-- Cielo de Atardecer -->
+            <!-- Cielo -->
             <rect width="1200" height="800" fill="url(#sunsetSky)"/>
 
-            <!-- Nubes tenues de atardecer -->
+            <!-- Nubes -->
             <path d="M50,80 Q200,60 380,85 T700,70 L1200,90 L1200,0 L0,0 Z" fill="#e84c71" opacity="0.4"/>
             <path d="M400,120 Q600,100 800,125 T1100,110 L1200,130 L1200,0 L0,0 Z" fill="#f26e55" opacity="0.3"/>
 
-            <!-- Silueta de la icónica roca de La Punta Montañita -->
+            <!-- Silueta de la roca de La Punta Montañita -->
             <path d="M330,420 
                      C320,400 335,360 340,330 
                      C342,300 360,280 400,270 
@@ -174,7 +184,7 @@
             <path d="M0,600 C300,580 700,630 1200,590 L1200,800 L0,800 Z" fill="url(#wetSand)"/>
             <path d="M0,640 Q400,620 800,660 T1200,630 L1200,800 L0,800 Z" fill="#360a16" opacity="0.85"/>
 
-            <!-- Silueta caminante del Surfer -->
+            <!-- Silueta caminante Surfer -->
             <g fill="#0d040a" transform="translate(480, 500) scale(0.85)">
                 <circle cx="50" cy="80" r="9"/>
                 <path d="M42,90 L58,90 L54,130 L46,130 Z"/>
@@ -200,20 +210,6 @@
         </svg>
     </div>
 
-    <!-- Hojas de palma decorativas -->
-    <div class="fixed top-0 left-0 opacity-15 pointer-events-none z-0">
-        <svg width="220" height="220" viewBox="0 0 100 100" fill="#ffffff">
-            <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
-            <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
-        </svg>
-    </div>
-    <div class="fixed bottom-0 right-0 opacity-15 pointer-events-none z-0 transform rotate-180">
-        <svg width="220" height="220" viewBox="0 0 100 100" fill="#ffffff">
-            <path d="M 0 0 C 30 20, 60 40, 80 100 C 50 70, 30 40, 0 0 Z" />
-            <path d="M 0 0 C 50 10, 80 30, 100 80 C 60 50, 40 30, 0 0 Z" />
-        </svg>
-    </div>
-
     <!-- PORTADA INICIAL DE BIENVENIDA (Caracola) -->
     <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f7f4ee] bg-wave-pattern p-6 text-center">
         <div class="max-w-md w-full flex flex-col items-center space-y-8">
@@ -225,7 +221,7 @@
 
             <p class="text-xs tracking-widest text-stone-500 uppercase">La Punta, Montañita • Ecuador</p>
 
-            <!-- Caracola en Espiral Limpia con Sonido Táctil -->
+            <!-- Caracola en Espiral -->
             <div id="seashell-btn" class="seashell-pulse my-4 p-5 rounded-full transition duration-300 hover:scale-105 active:scale-95" title="Toca la caracola para abrir la invitación">
                 <svg width="130" height="130" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M 88 50 
@@ -267,22 +263,26 @@
             <svg id="icon-sound-off" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" stroke-linecap="round" stroke-linejoin="round"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
         </button>
 
-        <!-- ENCABEZADO DE BIENVENIDA -->
-        <section class="glass-card rounded-2xl p-6 sm:p-10 text-center space-y-4">
+        <!-- ENCABEZADO DE BIENVENIDA CON LA FRASE SOLICITADA -->
+        <section class="glass-card rounded-2xl p-6 sm:p-10 text-center space-y-6">
             <span class="text-xs tracking-widest text-amber-800 uppercase font-semibold">¡Nos casamos!</span>
             
             <h1 class="font-serif-custom text-5xl sm:text-6xl text-stone-800 font-normal tracking-wide">
                 Verónica <span class="font-script-custom text-6xl sm:text-7xl text-amber-800/80 lowercase block sm:inline my-1 sm:my-0">&</span> Pachi
             </h1>
 
-            <div class="flex justify-center my-4">
+            <div class="flex justify-center my-2">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c4a482" stroke-width="1.5">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
             </div>
 
-            <p class="text-base sm:text-lg text-stone-700 font-medium max-w-lg mx-auto leading-relaxed">
-                Junto al mar y bajo el sol de la costa, nos encantaría compartir contigo el día más especial de nuestras vidas.
+            <!-- FRASE PRINCIPAL ELEGIDA POR EL USUARIO -->
+            <p class="font-serif-custom italic text-base sm:text-xl text-stone-700 max-w-lg mx-auto leading-relaxed">
+                “Que el mar guarde este día,<br>
+                que la vida lo lleve consigo<br>
+                y que nosotros podamos recordarlo siempre<br>
+                con ustedes cerca.”
             </p>
         </section>
 
@@ -406,6 +406,86 @@
                     </select>
                 </div>
 
+                <!-- OPCIÓN DE REGALO INTERACTIVA CON DESPLIEGUE SUAVE -->
+                <div class="pt-2 border-t border-stone-200/80">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">¿Deseas realizar un presente o regalo por transferencia?</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="click-sand-sound flex items-center justify-center p-3 rounded-xl border border-stone-300 bg-white cursor-pointer hover:bg-amber-50/50 transition">
+                            <input type="radio" id="gift-yes" name="gift_option" value="Sí, dar regalo" class="text-amber-700 focus:ring-amber-600">
+                            <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">Sí, dar regalo</span>
+                        </label>
+                        <label class="click-sand-sound flex items-center justify-center p-3 rounded-xl border border-stone-300 bg-white cursor-pointer hover:bg-stone-50 transition">
+                            <input type="radio" id="gift-no" name="gift_option" value="No por ahora" checked class="text-stone-600 focus:ring-stone-500">
+                            <span class="ml-2 text-xs sm:text-sm font-medium text-stone-700">No por ahora</span>
+                        </label>
+                    </div>
+
+                    <!-- ACCORDEÓN DESPLEGABLE CON LAS CUENTAS BANCARIAS DENTRO DEL FORMULARIO -->
+                    <div id="bank-accounts-dropdown" class="expandable-content">
+                        <div class="p-4 bg-amber-50/90 rounded-2xl border border-amber-200/80 space-y-4">
+                            <p class="text-xs text-amber-900 font-medium text-center">
+                                ✨ ¡Muchas gracias por tu hermoso gesto! Te facilitamos nuestras cuentas bancarias:
+                            </p>
+                            
+                            <div class="grid sm:grid-cols-2 gap-3 text-left">
+                                <!-- Cuenta Verónica -->
+                                <div class="bg-white rounded-xl p-3.5 border border-stone-200/80 shadow-sm space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-semibold tracking-wider text-amber-900 uppercase">Banco Pichincha</span>
+                                        <span class="text-[9px] bg-amber-100/80 text-amber-900 px-2 py-0.5 rounded-full font-medium">Ahorros</span>
+                                    </div>
+                                    <p class="font-semibold text-stone-800 text-xs">Verónica Vanessa Véliz Vélez</p>
+                                    
+                                    <div class="space-y-1.5 text-[11px] text-stone-600 pt-1">
+                                        <div class="flex items-center justify-between bg-stone-50 p-2 rounded-lg border border-stone-200/60">
+                                            <div>
+                                                <span class="text-stone-400 block text-[9px] uppercase font-semibold">N° Cuenta</span>
+                                                <span class="font-mono font-semibold text-stone-800 text-xs sm:text-sm">4940751000</span>
+                                            </div>
+                                            <button type="button" onclick="copyToClipboard('4940751000', this)" class="click-sand-sound text-[10px] px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-white rounded-lg font-medium transition active:scale-95">
+                                                Copiar
+                                            </button>
+                                        </div>
+                                        <div class="flex justify-between items-center px-1 text-[11px]">
+                                            <span class="text-stone-400">CI:</span>
+                                            <span class="font-medium text-stone-700">0925896045</span>
+                                        </div>
+                                        <div class="flex justify-between items-center px-1 text-[10px]">
+                                            <span class="text-stone-400">Correo:</span>
+                                            <span class="font-medium text-stone-700 break-all">verovelvel47@gmail.com</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cuenta Patricio -->
+                                <div class="bg-white rounded-xl p-3.5 border border-stone-200/80 shadow-sm space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-semibold tracking-wider text-amber-900 uppercase">Banco Pichincha</span>
+                                        <span class="text-[9px] bg-amber-100/80 text-amber-900 px-2 py-0.5 rounded-full font-medium">Ahorros</span>
+                                    </div>
+                                    <p class="font-semibold text-stone-800 text-xs">Julio Patricio Pintado Flores</p>
+                                    
+                                    <div class="space-y-1.5 text-[11px] text-stone-600 pt-1">
+                                        <div class="flex items-center justify-between bg-stone-50 p-2 rounded-lg border border-stone-200/60">
+                                            <div>
+                                                <span class="text-stone-400 block text-[9px] uppercase font-semibold">N° Cuenta</span>
+                                                <span class="font-mono font-semibold text-stone-800 text-xs sm:text-sm">2214778921</span>
+                                            </div>
+                                            <button type="button" onclick="copyToClipboard('2214778921', this)" class="click-sand-sound text-[10px] px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-white rounded-lg font-medium transition active:scale-95">
+                                                Copiar
+                                            </button>
+                                        </div>
+                                        <div class="flex justify-between items-center px-1 text-[11px]">
+                                            <span class="text-stone-400">CI:</span>
+                                            <span class="font-medium text-stone-700">0106278252</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <label for="guest-message" class="block text-xs font-semibold uppercase tracking-wider text-stone-600 mb-2">Mensaje o Nota Especial</label>
                     <textarea id="guest-message" rows="3" placeholder="Déjanos un mensaje o especifica tus alergias..." class="click-sand-sound w-full px-4 py-3 rounded-xl bg-white border border-stone-300 text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition"></textarea>
@@ -415,6 +495,75 @@
                     <span>Confirmar Asistencia</span>
                 </button>
             </form>
+        </section>
+
+        <!-- SECCIÓN PERMANENTE DISCRETA AL FINAL (MESA DE REGALOS) -->
+        <section id="gift-section" class="glass-card rounded-2xl p-6 sm:p-8 text-center space-y-6">
+            <div class="space-y-2">
+                <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-800 mx-auto">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V6a2 2 0 10-2 2h2zm0 13C10.832 21 2 13.5 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 5-8.832 12.5-10 12.5z"/></svg>
+                </div>
+                <h3 class="font-serif-custom text-2xl text-stone-800">Mesa de Regalos</h3>
+                <p class="text-xs text-stone-600 max-w-md mx-auto leading-relaxed">
+                    Tu presencia en nuestra boda es nuestro mejor regalo. Si deseas tener un detalle adicional con nosotros, ponemos a tu disposición nuestras cuentas bancarias:
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 max-w-xl mx-auto text-left">
+                <!-- Cuenta Verónica -->
+                <div class="bg-white/90 rounded-xl p-4 border border-stone-200/80 shadow-sm space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-semibold tracking-wider text-amber-900 uppercase">Banco Pichincha</span>
+                        <span class="text-[9px] bg-amber-100/70 text-amber-900 px-2 py-0.5 rounded-full font-medium">Ahorros</span>
+                    </div>
+                    <p class="font-semibold text-stone-800 text-xs sm:text-sm">Verónica Vanessa Véliz Vélez</p>
+                    
+                    <div class="space-y-2 text-xs text-stone-600 pt-1">
+                        <div class="flex items-center justify-between bg-stone-50 p-2.5 rounded-lg border border-stone-200/60">
+                            <div>
+                                <span class="text-stone-400 block text-[9px] uppercase font-semibold">N° Cuenta</span>
+                                <span class="font-mono font-semibold text-stone-800 text-sm">4940751000</span>
+                            </div>
+                            <button type="button" onclick="copyToClipboard('4940751000', this)" class="click-sand-sound text-[10px] px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-white rounded-lg font-medium transition active:scale-95">
+                                Copiar
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center px-1 text-xs">
+                            <span class="text-stone-400">CI:</span>
+                            <span class="font-medium text-stone-700">0925896045</span>
+                        </div>
+                        <div class="flex justify-between items-center px-1 text-[11px]">
+                            <span class="text-stone-400">Correo:</span>
+                            <span class="font-medium text-stone-700 break-all">verovelvel47@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cuenta Patricio -->
+                <div class="bg-white/90 rounded-xl p-4 border border-stone-200/80 shadow-sm space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-semibold tracking-wider text-amber-900 uppercase">Banco Pichincha</span>
+                        <span class="text-[9px] bg-amber-100/70 text-amber-900 px-2 py-0.5 rounded-full font-medium">Ahorros</span>
+                    </div>
+                    <p class="font-semibold text-stone-800 text-xs sm:text-sm">Julio Patricio Pintado Flores</p>
+                    
+                    <div class="space-y-2 text-xs text-stone-600 pt-1">
+                        <div class="flex items-center justify-between bg-stone-50 p-2.5 rounded-lg border border-stone-200/60">
+                            <div>
+                                <span class="text-stone-400 block text-[9px] uppercase font-semibold">N° Cuenta</span>
+                                <span class="font-mono font-semibold text-stone-800 text-sm">2214778921</span>
+                            </div>
+                            <button type="button" onclick="copyToClipboard('2214778921', this)" class="click-sand-sound text-[10px] px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-white rounded-lg font-medium transition active:scale-95">
+                                Copiar
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center px-1 text-xs">
+                            <span class="text-stone-400">CI:</span>
+                            <span class="font-medium text-stone-700">0106278252</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- PIE DE PÁGINA -->
@@ -473,8 +622,31 @@
     </div>
 
     <script>
-        const HOST_EMAIL = 'tu-correo@ejemplo.com';
         const HOST_PHONE = '593991265319';
+
+        /* FUNCION COPIAR NUMERO DE CUENTA AL PORTAPAPELES */
+        function copyToClipboard(text, btn) {
+            playSandClick();
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Copiado';
+                btn.classList.remove('bg-stone-800', 'hover:bg-stone-700');
+                btn.classList.add('bg-emerald-700', 'text-white');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-emerald-700');
+                    btn.classList.add('bg-stone-800', 'hover:bg-stone-700');
+                }, 2000);
+            } catch (err) {
+                console.error('Error al copiar', err);
+            }
+            document.body.removeChild(tempInput);
+        }
 
         /* MOTOR DE SINTETIZADOR DE AUDIO (WEB AUDIO API) */
         let audioCtx = null;
@@ -559,15 +731,13 @@
             }
         }
 
-        // 2. EFECTO SONORO DE SOPLO DE CARACOLA MARINA
+        // 2. EFECTO SONORO DE CARACOLA
         function playConchSound() {
             const ctx = getAudioContext();
             const now = ctx.currentTime;
 
-            // Clic de apertura
             playSandClick();
 
-            // Tono resonante místico de caracola
             const osc = ctx.createOscillator();
             const oscGain = ctx.createGain();
             const filter = ctx.createBiquadFilter();
@@ -593,7 +763,7 @@
             osc.stop(now + 1.35);
         }
 
-        // 3. EFECTO UNICO DE ZOOM / SWOOSH DE VIENTO AL INICIAR CADA GESTO DE DESLIZAMIENTO
+        // 3. EFECTO UNICO DE ZOOM/SWOOSH AL INICIAR UN GESTO DE DESLIZAMIENTO
         let hasPlayedSwipeSound = false;
         let scrollTimeout = null;
 
@@ -606,7 +776,6 @@
                 playSwooshSound();
             }
 
-            // Reinicia la posibilidad de sonar una vez que el usuario detiene el gesto
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 hasPlayedSwipeSound = false;
@@ -647,7 +816,7 @@
             } catch(e) {}
         }
 
-        // 4. SONIDO TÁCTIL DE PISADA EN ARENA / CLIC PLAYERO
+        // 4. SONIDO TÁCTIL DE PISADA EN ARENA
         function playSandClick() {
             try {
                 const ctx = getAudioContext();
@@ -679,7 +848,7 @@
             } catch(e) {}
         }
 
-        // Abrir portada al pulsar la caracola + Sonido de caracola
+        // Abrir portada al pulsar la caracola
         document.getElementById('seashell-btn').addEventListener('click', function() {
             playConchSound();
             const cover = document.getElementById('cover-screen');
@@ -689,7 +858,7 @@
 
         document.getElementById('audio-toggle').addEventListener('click', toggleAudio);
 
-        // Detectar inicio de deslizamiento táctil, rueda del mouse o scroll (1 vez por gesto)
+        // Eventos de deslizamiento táctil/mouse (1 solo sonido por gesto)
         window.addEventListener('touchstart', triggerSingleSwipeZoomSound, { passive: true });
         window.addEventListener('wheel', triggerSingleSwipeZoomSound, { passive: true });
         window.addEventListener('scroll', triggerSingleSwipeZoomSound, { passive: true });
@@ -698,7 +867,7 @@
             hasPlayedSwipeSound = false;
         });
 
-        // Asignar sonido de clic en arena a botones y controles
+        // Asignar sonido táctil a elementos del formulario
         document.querySelectorAll('.click-sand-sound, input, select, textarea').forEach(el => {
             el.addEventListener('click', playSandClick);
         });
@@ -728,10 +897,23 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        /* MANEJO FORMULARIO RSVP */
+        /* MANEJO FORMULARIO RSVP Y DESPLEGABLE BANCARIO */
         const rsvpForm = document.getElementById('rsvp-form');
         const passModal = document.getElementById('pass-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
+        const bankDropdown = document.getElementById('bank-accounts-dropdown');
+        const giftRadios = document.querySelectorAll('input[name="gift_option"]');
+
+        // Control del despliegue suave del menú bancario al seleccionar "Sí, dar regalo"
+        giftRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value.includes('Sí')) {
+                    bankDropdown.classList.add('expanded');
+                } else {
+                    bankDropdown.classList.remove('expanded');
+                }
+            });
+        });
 
         rsvpForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -741,7 +923,10 @@
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
             const companion = document.getElementById('guest-companions').value;
             const menu = document.getElementById('guest-menu').value;
+            const giftOption = document.querySelector('input[name="gift_option"]:checked').value;
             const message = document.getElementById('guest-message').value.trim();
+
+            const wantsGiftInfo = giftOption.includes('Sí');
 
             document.getElementById('modal-name').textContent = name;
             document.getElementById('modal-status').textContent = attendance;
@@ -753,6 +938,7 @@
                 `✨ *Estado:* ${attendance}\n` +
                 `👥 *Acompañante:* ${companion}\n` +
                 `🍽️ *Menú:* ${menu}\n` +
+                (wantsGiftInfo ? `🎁 *Regalo:* Desea realizar transferencia bancaria\n` : '') +
                 (message ? `💬 *Mensaje:* ${message}\n` : '') +
                 `\n¡Nos vemos en La Punta, Montañita!`;
 
